@@ -9,6 +9,8 @@ class Vec3(e0: Double, e1: Double, e2: Double) {
 
   def - = Vec3(e.map(el => -el))
 
+  def -(v: Vec3): Vec3 = Vec3.-(this, v)
+
   def apply(i: Int): Double = e(i)
 
   def +(v: Vec3) = Vec3(e.zip(v.e).map { case (thisE, thatE) => thisE + thatE })
@@ -58,4 +60,7 @@ object Vec3 {
   }
 
   def unit(v: Vec3): Vec3 = v / v.length
+
+  type Point3 = Vec3
+  type Color = Vec3
 }
