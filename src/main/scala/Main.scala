@@ -3,9 +3,22 @@ import Vec3.{Color, Point3}
 object Main {
 
   def rayColor(r: Ray): Color = {
+    if (hitSphere(new Point3(0, 0, -1), 0.5, r)) {
+      return new Color(1, 0, 0)
+    }
+
     val unitDirection = Vec3.unit(r.direction)
     val t = 0.5 * (unitDirection.y + 1.0)
     new Color(1.0, 1.0, 1.0) * (1.0 - t) + new Color(0.5, 0.7, 1.0) * t
+  }
+
+  def hitSphere(center: Point3, radius: Double, r: Ray): Boolean = {
+    val oc = r.origin - center
+    val a = Vec3.dot(r.direction, r.direction)
+    val b = Vec3.dot(oc, r.direction) * 2
+    val c = Vec3.dot(oc, oc) - radius * radius
+    val discriminant = b*b - 4 * a * c
+    discriminant > 0
   }
 
   def printImage(width: Int, height: Int): Unit = {
@@ -30,6 +43,10 @@ object Main {
   }
 
   def main(args: Array[String]): Unit = {
-    printImage(256, 256)
+    val aspectRatio = 16.0 / 9.0
+    val width = 384
+    val height = (width / aspectRatio).asInstanceOf[Int]
+
+    printImage(width, height)
   }
 }
