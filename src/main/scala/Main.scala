@@ -18,11 +18,12 @@ object Main {
 
   def hitSphere(center: Point3, radius: Double, r: Ray): Double = {
     val oc = r.origin - center
-    val a = Vec3.dot(r.direction, r.direction)
-    val b = Vec3.dot(oc, r.direction) * 2
-    val c = Vec3.dot(oc, oc) - radius * radius
-    val discriminant = b*b - 4 * a * c
-    if (discriminant < 0) -1.0 else (-b - Math.sqrt(discriminant)) / (2.0 * a)
+    val a = r.direction.lengthSquared
+    val halfB = Vec3.dot(oc, r.direction)
+    val c = oc.lengthSquared - radius * radius
+    val discriminant = halfB * halfB - a * c
+
+    if (discriminant < 0) -1.0 else (-halfB - Math.sqrt(discriminant)) / a
   }
 
   def printImage(width: Int, height: Int): Unit = {
