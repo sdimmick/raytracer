@@ -3,22 +3,26 @@ import Vec3.{Color, Point3}
 object Main {
 
   def rayColor(r: Ray): Color = {
-    if (hitSphere(new Point3(0, 0, -1), 0.5, r)) {
-      return new Color(1, 0, 0)
+    var t = hitSphere(new Point3(0, 0, -1), 0.5, r)
+    if (t > 0) {
+      val n = Vec3.unit(r.at(t) - new Vec3(0, 0, -1))
+      return new Color(n.x + 1, n.y + 1, n.z + 1) * 0.5
     }
 
     val unitDirection = Vec3.unit(r.direction)
-    val t = 0.5 * (unitDirection.y + 1.0)
-    new Color(1.0, 1.0, 1.0) * (1.0 - t) + new Color(0.5, 0.7, 1.0) * t
+    t = (unitDirection.y + 1.0) * 0.5
+
+    new Color(1.0, 1.0, 1.0) * (1.0 - t) +
+      new Color(0.5, 0.7, 1.0) * t
   }
 
-  def hitSphere(center: Point3, radius: Double, r: Ray): Boolean = {
+  def hitSphere(center: Point3, radius: Double, r: Ray): Double = {
     val oc = r.origin - center
     val a = Vec3.dot(r.direction, r.direction)
     val b = Vec3.dot(oc, r.direction) * 2
     val c = Vec3.dot(oc, oc) - radius * radius
     val discriminant = b*b - 4 * a * c
-    discriminant > 0
+    if (discriminant < 0) -1.0 else (-b - Math.sqrt(discriminant)) / (2.0 * a)
   }
 
   def printImage(width: Int, height: Int): Unit = {
