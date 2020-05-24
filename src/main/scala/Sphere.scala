@@ -1,7 +1,7 @@
 import Vec3.Point3
 
 class Sphere(center: Point3, radius: Double) extends Hittable {
-  override def hit(r: Ray, tMin: Double, tMax: Double, rec: HitRecord): Option[HitRecord] = {
+  override def hit(r: Ray, tMin: Double, tMax: Double): Option[HitRecord] = {
     val oc = r.origin - center
     val a = r.direction.lengthSquared
     val halfB = Vec3.dot(oc, r.direction)
@@ -12,11 +12,11 @@ class Sphere(center: Point3, radius: Double) extends Hittable {
       val root = Math.sqrt(discriminant)
       var temp = (-halfB - root) / a
       if (temp < tMax && temp > tMin) {
-        Some(hitRecord(temp, r))
+        return Some(hitRecord(temp, r))
       }
       temp = (-halfB + root) / a
       if (temp < tMax && temp > tMin) {
-        Some(hitRecord(temp, r))
+        return Some(hitRecord(temp, r))
       }
     }
 
@@ -25,10 +25,7 @@ class Sphere(center: Point3, radius: Double) extends Hittable {
 
   private def hitRecord(t: Double, r: Ray): HitRecord = {
     val p = r.at(t)
-    HitRecord(
-      t = t,
-      p = p,
-      normal = (p - center) / radius
-    )
+    val outwardNormal = (p - center) / radius
+    HitRecord(t, p, r, outwardNormal)
   }
 }
