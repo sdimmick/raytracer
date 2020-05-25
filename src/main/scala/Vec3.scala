@@ -1,3 +1,5 @@
+import scala.util.Random
+
 class Vec3(e0: Double, e1: Double, e2: Double) {
   private val e = Array(e0, e1, e2)
 
@@ -34,6 +36,8 @@ class Vec3(e0: Double, e1: Double, e2: Double) {
 }
 
 object Vec3 {
+  private val rand = new Random()
+
   def apply() = new Vec3(0, 0, 0)
 
   def apply(e: Seq[Double]): Vec3 = {
@@ -63,6 +67,20 @@ object Vec3 {
   }
 
   def unit(v: Vec3): Vec3 = v / v.length
+
+  private def randomInRange(min: Double, max: Double): Double = {
+    min + (max - min) * rand.nextDouble()
+  }
+
+  def random(min: Double = 0.0, max: Double = 1.0): Vec3 = {
+    new Vec3(randomInRange(min, max), randomInRange(min, max), randomInRange(min, max))
+  }
+
+  def randomInUnitSphere(): Vec3 = {
+    val p = Vec3.random(-1, 1)
+    if (p.lengthSquared >= 1) randomInUnitSphere()
+    else p
+  }
 
   def clamp(x: Double, min: Double, max: Double): Double = {
     if (x < min) min

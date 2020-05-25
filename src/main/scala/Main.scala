@@ -2,9 +2,16 @@ import Vec3.{Color, Point3}
 
 object Main {
 
-  def rayColor(r: Ray, world: Seq[Hittable]): Color = {
+  def rayColor(r: Ray, world: Seq[Hittable], depth: Int): Color = {
+    if (depth <= 0) {
+      return new Color(0, 0, 0)
+    }
+
     world.hit(r, 0, Double.PositiveInfinity) match {
-      case Some(hit) => (hit.normal + new Color(1, 1, 1)) * 0.5
+      case Some(hit) => {
+        val target = hit.p + hit.normal + Vec3.randomInUnitSphere()
+        rayColor(new Ray(hit.p, target - hit.p), world, depth - 1) * 0.5
+      }
       case _         => {
         val unitDirection = Vec3.unit(r.direction)
         val t = (unitDirection.y + 1.0) * 0.5
@@ -12,21 +19,6 @@ object Main {
           new Color(0.5, 0.7, 1.0) * t
       }
     }
-  }
-
-
-  def rayColorOld(r: Ray): Color = {
-    var t = hitSphere(new Point3(0, 0, -1), 0.5, r)
-    if (t > 0) {
-      val n = Vec3.unit(r.at(t) - new Vec3(0, 0, -1))
-      return new Color(n.x + 1, n.y + 1, n.z + 1) * 0.5
-    }
-
-    val unitDirection = Vec3.unit(r.direction)
-    t = (unitDirection.y + 1.0) * 0.5
-
-    new Color(1.0, 1.0, 1.0) * (1.0 - t) +
-      new Color(0.5, 0.7, 1.0) * t
   }
 
   def hitSphere(center: Point3, radius: Double, r: Ray): Double = {
@@ -39,14 +31,9 @@ object Main {
     if (discriminant < 0) -1.0 else (-halfB - Math.sqrt(discriminant)) / a
   }
 
-  def printImage(width: Int, height: Int, samplesPerPixel: Int): Unit = {
+  def printImage(width: Int, height: Int, samplesPerPixel: Int, maxDepth: Int): Unit = {
     // P3 image header
     println(s"P3\n$width $height\n255")
-
-    val origin = new Point3(0.0, 0.0, 0.0)
-    val horizontal = new Vec3(4.0, 0.0, 0.0)
-    val vertical = new Vec3(0.0, 2.25, 0.0)
-    val lowerLeftCorner = origin - horizontal / 2 - vertical / 2 - new Vec3(0,0,1)
 
     val world = Seq(
       new Sphere(new Point3(0, 0, -1), 0.5),
@@ -60,7 +47,7 @@ object Main {
           val u = (i + Math.random()) / (width - 1)
           val v = (j + Math.random()) / (height - 1)
           val r = Camera.getRay(u, v)
-          color + rayColor(r, world)
+          color + rayColor(r, world, maxDepth)
         }
 
         pixelColor.writeColor(samplesPerPixel)
@@ -74,7 +61,8 @@ object Main {
     val width = 384
     val height = (width / aspectRatio).asInstanceOf[Int]
     val samplesPerPixel = 100
+    val maxDepth = 50
 
-    printImage(width, height, samplesPerPixel)
+    printImage(width, height, samplesPerPixel, maxDepth)
   }
 }
