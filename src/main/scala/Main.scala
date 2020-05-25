@@ -54,6 +54,7 @@ object Main {
     )
 
     for (j <- height - 1 to 0 by -1) {
+      System.err.print(s"\rScanlines remaining: $j")
       for (i <- 0 until width) {
         val u = i.asInstanceOf[Double] / (width - 1)
         val v = j.asInstanceOf[Double] / (height - 1)
@@ -63,6 +64,7 @@ object Main {
         pixelColor.writeColor()
       }
     }
+    System.err.print("\nDone\n")
   }
 
   def main(args: Array[String]): Unit = {
