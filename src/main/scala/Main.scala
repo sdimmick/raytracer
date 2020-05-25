@@ -39,7 +39,7 @@ object Main {
     if (discriminant < 0) -1.0 else (-halfB - Math.sqrt(discriminant)) / a
   }
 
-  def printImage(width: Int, height: Int): Unit = {
+  def printImage(width: Int, height: Int, samplesPerPixel: Int): Unit = {
     // P3 image header
     println(s"P3\n$width $height\n255")
 
@@ -56,12 +56,14 @@ object Main {
     for (j <- height - 1 to 0 by -1) {
       System.err.print(s"\rScanlines remaining: $j")
       for (i <- 0 until width) {
-        val u = i.asInstanceOf[Double] / (width - 1)
-        val v = j.asInstanceOf[Double] / (height - 1)
-        val r = new Ray(origin, lowerLeftCorner + (horizontal * u) + (vertical * v))
+        val pixelColor = (0 until samplesPerPixel).foldLeft(new Color(0, 0, 0)) { (color, s) =>
+          val u = (i + Math.random()) / (width - 1)
+          val v = (j + Math.random()) / (height - 1)
+          val r = Camera.getRay(u, v)
+          color + rayColor(r, world)
+        }
 
-        val pixelColor = rayColor(r, world)
-        pixelColor.writeColor()
+        pixelColor.writeColor(samplesPerPixel)
       }
     }
     System.err.print("\nDone\n")
@@ -71,7 +73,8 @@ object Main {
     val aspectRatio = 16.0 / 9.0
     val width = 384
     val height = (width / aspectRatio).asInstanceOf[Int]
+    val samplesPerPixel = 100
 
-    printImage(width, height)
+    printImage(width, height, samplesPerPixel)
   }
 }

@@ -25,8 +25,11 @@ class Vec3(e0: Double, e1: Double, e2: Double) {
 
   override def toString: String = e.mkString(" ")
 
-  def writeColor(): Unit = {
-    println(e.map(el => (el * 255.999).asInstanceOf[Int]).mkString(" "))
+  def writeColor(samplesPerPixel: Int): Unit = {
+    val scale = 1.0 / samplesPerPixel
+    println(e.map { el =>
+      (256 * Vec3.clamp(el * scale, 0.0, 0.999)).asInstanceOf[Int]
+    } .mkString(" "))
   }
 }
 
@@ -60,6 +63,12 @@ object Vec3 {
   }
 
   def unit(v: Vec3): Vec3 = v / v.length
+
+  def clamp(x: Double, min: Double, max: Double): Double = {
+    if (x < min) min
+    else if (x > max) max
+    else x
+  }
 
   type Point3 = Vec3
   type Color = Vec3
