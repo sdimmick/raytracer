@@ -30,7 +30,7 @@ class Vec3(e0: Double, e1: Double, e2: Double) {
   def writeColor(samplesPerPixel: Int): Unit = {
     val scale = 1.0 / samplesPerPixel
     println(e.map { el =>
-      (256 * Vec3.clamp(el * scale, 0.0, 0.999)).asInstanceOf[Int]
+      (256 * Vec3.clamp(Math.sqrt(el * scale), 0.0, 0.999)).asInstanceOf[Int]
     } .mkString(" "))
   }
 }

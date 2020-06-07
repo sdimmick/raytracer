@@ -7,7 +7,7 @@ object Main {
       return new Color(0, 0, 0)
     }
 
-    world.hit(r, 0, Double.PositiveInfinity) match {
+    world.hit(r, 0.001, Double.PositiveInfinity) match {
       case Some(hit) => {
         val target = hit.p + hit.normal + Vec3.randomInUnitSphere()
         rayColor(new Ray(hit.p, target - hit.p), world, depth - 1) * 0.5
@@ -42,6 +42,7 @@ object Main {
 
     for (j <- height - 1 to 0 by -1) {
       System.err.print(s"\rScanlines remaining: $j")
+      System.err.flush()
       for (i <- 0 until width) {
         val pixelColor = (0 until samplesPerPixel).foldLeft(new Color(0, 0, 0)) { (color, s) =>
           val u = (i + Math.random()) / (width - 1)
