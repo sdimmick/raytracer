@@ -9,7 +9,7 @@ object Main {
 
     world.hit(r, 0.001, Double.PositiveInfinity) match {
       case Some(hit) => {
-        val target = hit.p + hit.normal + Vec3.randomInUnitSphere()
+        val target = hit.p + Vec3.randomInHemisphere(hit.normal)
         rayColor(new Ray(hit.p, target - hit.p), world, depth - 1) * 0.5
       }
       case _         => {

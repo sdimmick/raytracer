@@ -82,6 +82,19 @@ object Vec3 {
     else p
   }
 
+  def randomUnitVector(): Vec3 = {
+    val a = randomInRange(0, 2 * scala.math.Pi)
+    val z = randomInRange(-1, 1)
+    val r = scala.math.sqrt(1 - (z * z))
+    new Vec3(r * math.cos(a), r * math.sin(a), z)
+  }
+
+  def randomInHemisphere(normal: Vec3): Vec3 = {
+    val inUnitSphere = randomInUnitSphere()
+    if (dot(inUnitSphere, normal) > 0) inUnitSphere
+    else inUnitSphere-
+  }
+
   def clamp(x: Double, min: Double, max: Double): Double = {
     if (x < min) min
     else if (x > max) max
