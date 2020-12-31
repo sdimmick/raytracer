@@ -3,15 +3,16 @@ import Vec3.Point3
 case class HitRecord(
   p: Point3,
   normal: Vec3,
+  mat: Material,
   t: Double,
   frontFace: Boolean
 )
 
 object HitRecord {
-  def apply(t: Double, p: Point3, r: Ray, outwardNormal: Vec3): HitRecord = {
+  def apply(t: Double, p: Point3, r: Ray, outwardNormal: Vec3, mat: Material): HitRecord = {
     val frontFace = Vec3.dot(r.direction, outwardNormal) < 0
     val normal = if (frontFace) outwardNormal else (outwardNormal-)
-    new HitRecord(p, normal, t, frontFace)
+    new HitRecord(p, normal, mat, t, frontFace)
   }
 }
 

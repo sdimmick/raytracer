@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="81764445-3ccd-44ea-a1a3-d41069a8e1e3" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
@@ -15,20 +21,8 @@
       <ProjectState />
     </projectState>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>random</find>
-      <find>rayColor</find>
-      <find>write</find>
-    </findStrings>
-  </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
-    <option name="width" value="840" />
-    <option name="height" value="1027" />
   </component>
   <component name="ProjectId" id="1e67Sj3l5yG1ksLEXMOgYhrsIzn" />
   <component name="ProjectViewState">
@@ -56,6 +50,7 @@
   <component name="ScaramucciProjectSettings">
     <option name="enabled" value="false" />
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="81764445-3ccd-44ea-a1a3-d41069a8e1e3" name="Default Changelist" comment="" />
@@ -66,12 +61,22 @@
     </task>
     <servers />
   </component>
+  <component name="WindowStateProjectService">
+    <state x="118" y="291" width="604" height="490" key="find.popup" timestamp="1609430691929">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="118" y="291" width="604" height="490" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1609430691929" />
+    <state x="85" y="250" width="670" height="676" key="search.everywhere.popup" timestamp="1609430938928">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="85" y="250" width="670" height="676" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1609430938928" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="scala-line">
           <url>file://$PROJECT_DIR$/src/main/scala/Hittable.scala</url>
-          <line>30</line>
+          <line>31</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

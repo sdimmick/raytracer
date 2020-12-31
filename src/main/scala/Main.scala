@@ -9,8 +9,15 @@ object Main {
 
     world.hit(r, 0.001, Double.PositiveInfinity) match {
       case Some(hit) => {
-        val target = hit.p + Vec3.randomInHemisphere(hit.normal)
-        rayColor(new Ray(hit.p, target - hit.p), world, depth - 1) * 0.5
+        hit.mat.scatter(r, hit) match {
+          case sr: ScatterRecord if sr.scattered => {
+            Vec3.*(sr.attenuation, (rayColor(sr.ray, world, depth - 1)))
+          }
+          case _ => new Color(0, 0, 0)
+        }
+
+//        val target = hit.p + Vec3.randomInHemisphere(hit.normal)
+//        rayColor(new Ray(hit.p, target - hit.p), world, depth - 1) * 0.5
       }
       case _         => {
         val unitDirection = Vec3.unit(r.direction)
@@ -35,9 +42,12 @@ object Main {
     // P3 image header
     println(s"P3\n$width $height\n255")
 
+    val materialGround = new Lambertian(new Color(0.8, 0.8, 0.0))
+    val materialCenter = new Lambertian(new Color(0.7, 0.3, 0.3))
+
     val world = Seq(
-      new Sphere(new Point3(0, 0, -1), 0.5),
-      new Sphere(new Point3(0, -100.5, -1), 100)
+      new Sphere(new Point3(0, 0, -1), 0.5, materialCenter),
+      new Sphere(new Point3(0, -100.5, -1), 100, materialGround)
     )
 
     for (j <- height - 1 to 0 by -1) {
@@ -59,9 +69,9 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     val aspectRatio = 16.0 / 9.0
-    val width = 384
+    val width = 100
     val height = (width / aspectRatio).asInstanceOf[Int]
-    val samplesPerPixel = 100
+    val samplesPerPixel = 60
     val maxDepth = 50
 
     printImage(width, height, samplesPerPixel, maxDepth)

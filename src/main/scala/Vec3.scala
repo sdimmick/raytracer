@@ -33,6 +33,11 @@ class Vec3(e0: Double, e1: Double, e2: Double) {
       (256 * Vec3.clamp(Math.sqrt(el * scale), 0.0, 0.999)).asInstanceOf[Int]
     } .mkString(" "))
   }
+
+  def nearZero: Boolean = {
+    val s = 1e-8
+    e.forall(x => Math.abs(x) < s)
+  }
 }
 
 object Vec3 {

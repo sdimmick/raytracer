@@ -1,6 +1,6 @@
 import Vec3.Point3
 
-class Sphere(center: Point3, radius: Double) extends Hittable {
+class Sphere(center: Point3, radius: Double, mat: Material) extends Hittable {
   override def hit(r: Ray, tMin: Double, tMax: Double): Option[HitRecord] = {
     val oc = r.origin - center
     val a = r.direction.lengthSquared
@@ -26,6 +26,6 @@ class Sphere(center: Point3, radius: Double) extends Hittable {
   private def hitRecord(t: Double, r: Ray): HitRecord = {
     val p = r.at(t)
     val outwardNormal = (p - center) / radius
-    HitRecord(t, p, r, outwardNormal)
+    HitRecord(t, p, r, outwardNormal, mat)
   }
 }
